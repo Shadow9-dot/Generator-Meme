@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор мемов</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Impact&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Снежинки -->
+    <div id="snowflakes"></div>
+
+    <header class="fadeIn">
+        <div class="glowLine"></div>
+        <h1 class="glowText">Генератор мемов</h1>
+    </header>
+
+    <!-- Переключение режимов -->
+    <nav class="mode-nav fadeUp">
+        <button id="mode-generator" class="mode-btn active">Генератор</button>
+        <button id="mode-memes" class="mode-btn">Мемы</button>
+    </nav>
+
+    <main id="main-generator" class="mode-content fadeUp">
+        <section class="upload-section fadeUp">
+            <label for="image-input">Перетащите изображение сюда или выберите файл</label>
+            <input type="file" id="image-input" accept="image/png, image/jpeg, image/webp">
+        </section>
+
+        <section class="templates-section fadeUp">
+            <h2 class="glowText">Шаблоны</h2>
+            <div id="templates"></div>
+        </section>
+
+        <section class="preview-section fadeUp">
+            <canvas id="meme-canvas"></canvas>
+        </section>
+
+        <section class="text-settings-section fadeUp">
+            <div class="input-group">
+                <label for="top-text">Верхняя подпись</label>
+                <input type="text" id="top-text" placeholder="Введите верхнюю подпись">
+            </div>
+
+            <div class="input-group">
+                <label for="bottom-text">Нижняя подпись</label>
+                <input type="text" id="bottom-text" placeholder="Введите нижнюю подпись">
+            </div>
+
+            <div class="input-group">
+                <label for="font-size">Размер шрифта: <span id="font-size-value">40</span> px</label>
+                <input type="range" id="font-size" min="10" max="100" value="40">
+            </div>
+
+            <div class="input-group">
+                <label for="text-color">Цвет текста</label>
+                <select id="text-color">
+                    <option value="white">Белый</option>
+                    <option value="black">Черный</option>
+                    <option value="yellow">Желтый</option>
+                    <option value="red">Красный</option>
+                    <option value="custom">Другой цвет</option>
+                </select>
+                <input type="color" id="custom-color" value="#ffffff" style="display:none;">
+            </div>
+        </section>
+
+        <section class="actions-section fadeUp">
+            <button id="btn-preview">Предпросмотр</button>
+            <button id="btn-generate-gen">Сгенерировать</button>
+            <button id="btn-download">Скачать</button>
+        </section>
+    </main>
+
+    <main id="main-memes" class="mode-content fadeUp" style="display: none;">
+        <section class="memes-gallery fadeUp">
+            <h2 class="glowText">Галерея рандомных мемов</h2>
+            <button id="btn-generate-meme" class="gen-btn pulse">Сгенерировать мем</button>
+            <div id="meme-gallery"></div>
+        </section>
+    </main>
+    <div class="player">
+  <button class="sound-btn" onclick="toggleSound()" aria-label="Включить или выключить звук">
+    🔊
+  </button>
+
+  <div class="controls">
+    <button type="button" onclick="prevSong()">⏮</button>
+    <button type="button" onclick="nextSong()">⏭</button>
+  </div>
+
+  <audio id="audio" src="9lives — fairy (www.lightaudio.ru).mp3"></audio>
+</div>
+
+<script>
+  const playlist = [
+    "9lives — fairy (www.lightaudio.ru).mp3",
+    "Yung Gravy — Betty (www.lightaudio.ru).mp3",
+    "Milky — Just The Way You Are (2002) (www.lightaudio.ru).mp3",
+  ];
+
+  let currentSong = 0;
+  const audio = document.getElementById("audio");
+  const soundBtn = document.querySelector(".sound-btn");
+
+  function playCurrentSong() {
+    audio.src = playlist[currentSong];
+    audio.play();
+    soundBtn.textContent = "🔊";
+  }
+
+  function toggleSound() {
+    if (audio.paused) {
+      audio.play();
+      soundBtn.textContent = "🔊";
+    } else {
+      audio.pause();
+      soundBtn.textContent = "🔇";
+    }
+  }
+
+  function nextSong() {
+    currentSong = (currentSong + 1) % playlist.length;
+    playCurrentSong();
+  }
+
+  function prevSong() {
+    currentSong = (currentSong - 1 + playlist.length) % playlist.length;
+    playCurrentSong();
+  }
+
+  audio.addEventListener("ended", nextSong);
+</script>
+    <script src="app.js"></script>
+</body>
+</html>

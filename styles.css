@@ -1,0 +1,371 @@
+/* === ЧЁРНЫЙ ФОН === */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: #000;
+    color: #eee;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* === Снежинки === */
+#snowflakes {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.snowflake {
+    position: absolute;
+    color: #fff;
+    font-size: 1em;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* === Хедер === */
+header {
+    background: linear-gradient(135deg, #050505, #0a0a0a);
+    padding: 2em;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.558);
+    z-index: 10;
+}
+
+.glowLine {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #b81818, transparent);
+    box-shadow: 0 0 8px rgba(0, 55, 255, 0.6);
+}
+
+.glowText {
+    color: #fff;
+    font-size: 2.5em;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.6), 0 0 24px rgba(255, 255, 255, 0.6);
+}
+
+/* === Переключение режимов === */
+.mode-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+    margin: 1.5em 0;
+    z-index: 10;
+}
+
+.mode-btn {
+    padding: 0.8em 1.5em;
+    background: #111;
+    color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    box-shadow: 0 0 6px rgba(20, 52, 180, 0.15);
+}
+
+.mode-btn:hover {
+    box-shadow: 0 0 16px rgba(20, 79, 180, 0.35);
+    transform: translateY(-4px);
+}
+
+.mode-btn.active {
+    background: rgba(255, 255, 255, 0.404);
+    border-color: rgba(255, 255, 255, 0.359);
+    box-shadow: 0 0 16px #ffffff63;
+}
+
+/* === Анимации === */
+.fadeIn {
+    animation: fadeIn 1s ease-out;
+}
+.fadeUp {
+    animation: fadeUp 1s ease-out;
+}
+.pulse {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 10px rgba(11, 0, 96, 0.3); }
+    50% { box-shadow: 0 0 20px rgba(255, 255, 255, 0.7); }
+    100% { box-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+}
+
+main {
+    padding: 1em;
+    max-width: 800px;
+    margin: auto;
+    z-index: 10;
+}
+
+.mode-content {
+    z-index: 10;
+}
+
+/* === Область загрузки === */
+.upload-section {
+    position: relative;
+    border: 2px dashed #ccc;
+    padding: 3em;
+    text-align: center;
+    margin-bottom: 2em;
+    background: #0a0a0a;
+    border-radius: 12px;
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.15);
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+}
+
+.upload-section:hover {
+    box-shadow: 0 0 24px rgba(255, 255, 255, 0.3);
+    transform: translateY(-4px);
+}
+
+.upload-section input[type="file"] {
+    margin-top: 1.5em;
+}
+
+/* === Шаблоны === */
+.templates-section {
+    margin-bottom: 2em;
+}
+
+.templates-section h2 {
+    font-size: 1.4em;
+    margin-bottom: 1em;
+}
+
+#templates {
+    display: flex;
+    gap: 1.5em;
+    overflow-x: auto;
+    padding: 0.5em 0 1em;
+}
+
+.template {
+    width: 140px;
+    height: 105px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 6px;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.template img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.template:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 16px rgba(255, 255, 255, 0.35);
+}
+
+/* === Предпросмотр === */
+.preview-section {
+    background: #0a0a0a;
+    border: 1px solid #ccc;
+    margin-bottom: 2em;
+    padding: 1.5em;
+    border-radius: 12px;
+    box-shadow: 0 0 16px rgba(20, 41, 180, 0.15);
+    display: flex;
+    justify-content: center;
+}
+
+#meme-canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+/* === Настройки текста === */
+.text-settings-section .input-group {
+    margin-bottom: 1.5em;
+}
+
+.text-settings-section label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.7em;
+}
+
+.text-settings-section input,
+.text-settings-section select {
+    width: 100%;
+    padding: 0.7em;
+    background: #111;
+    border: 1px solid #ccc;
+    color: #fff;
+    border-radius: 6px;
+}
+
+/* === Кнопки === */
+.actions-section {
+    display: flex;
+    gap: 1.5em;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.actions-section button,
+.gen-btn {
+    padding: 0.9em 1.5em;
+    border: none;
+    background: #111;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: box-shadow 0.4s ease, transform 0.4s ease;
+    box-shadow: 0 0 6px rgba(63, 87, 161, 0.15);
+}
+
+.actions-section button:hover,
+.gen-btn:hover {
+    box-shadow: 0 0 16px rgba(92, 92, 92, 0.35);
+    transform: translateY(-4px);
+}
+
+.actions-section button:disabled {
+    background: #999;
+}
+
+/* === Галерея рандомных мемов === */
+.memes-gallery {
+    margin-top: 2em;
+}
+
+.memes-gallery h2 {
+    font-size: 1.4em;
+    margin-bottom: 1em;
+}
+
+.gen-btn {
+    display: block;
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto 2em;
+    background: linear-gradient(135deg, #263a91, #12248c);
+    border: none;
+}
+
+#meme-gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+}
+
+.meme-card {
+    background: #0a0a0a;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    padding: 0.7em;
+    box-shadow: 0 0 16px rgba(20, 84, 180, 0.15);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    animation: slideIn 0.6s ease-out;
+}
+
+.meme-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 24px rgba(20, 111, 180, 0.35);
+}
+
+.meme-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .actions-section {
+        flex-direction: column;
+    }
+}
+.player {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.sound-btn,
+.controls button {
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  transition: 0.2s ease;
+}
+
+.sound-btn {
+  width: 48px;
+  height: 48px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controls button {
+  font-size: 20px;
+  padding: 10px 14px;
+}
+
+.sound-btn:hover,
+.controls button:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.05);
+}
