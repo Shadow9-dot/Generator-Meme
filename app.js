@@ -250,44 +250,128 @@ function render() {
     }
 }
 
-// === Кнопка "Предпросмотр" (работает!) ===
+// Получаем элементы
+const canvas = document.getElementById('meme-canvas');
+const ctx = canvas.getContext('2d');
+
+const imageInput = document.getElementById('image-input');
+const topTextInput = document.getElementById('top-text');
+const bottomTextInput = document.getElementById('bottom-text');
+const fontSizeInput = document.getElementById('font-size');
+const textColorSelect = document.getElementById('text-color');
+const customColorInput = document.getElementById('custom-color');
+
+const btnPreview = document.getElementById('btn-preview');
+const btnGenerateGen = document.getElementById('btn-generate-gen');
+const btnDownload = document.getElementById('btn-download');
+
+let currentImage = null;
+
+// Загрузка изображения с компьютера
+imageInput.addEventListener('change', () => {
+    const file = imageInput.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = () => {
+        const img = new Image();
+        // ВАЖНО: локальный файл не даёт tainted, можно без crossOrigin
+        img.onload = () => {
+            currentImage = img;
+            canvas.width = img.width;
+            canvas.height = img.height;
+            render();
+        };
+        img.src = reader.result;
+    };
+    reader.readAsDataURL(file);
+});
+
+// Цвет текста
+function getTextColor() {
+    return textColorSelect.value === 'custom'
+        ? customColorInput.value
+        : textColorSelect.value;
+}
+
+// Отрисовка мема
+function render() {
+    if (!currentImage) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(currentImage, 0, 0, canvas.width, canvas.height);
+
+    const fontSize = parseInt(fontSizeInput.value);
+    const fontFamily = 'Impact';
+    const textFill = getTextColor();
+    const textStroke = 'black';
+    const lineWidth = Math.max(2, fontSize * 0.08);
+
+    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.textAlign = 'center';
+    ctx.lineWidth = lineWidth;
+    ctx.strokeStyle = textStroke;
+    ctx.fillStyle = textFill;
+
+    const topText = topTextInput.value;
+    if (topText) {
+        ctx.textBaseline = 'top';
+        ctx.strokeText(topText, canvas.width / 2, 10);
+        ctx.fillText(topText, canvas.width / 2, 10);
+    }
+
+    const bottomText = bottomTextInput.value;
+    if (bottomText) {
+        ctx.textBaseline = 'bottom';
+        const y = canvas.height - 10;
+        ctx.strokeText(bottomText, canvas.width / 2, y);
+        ctx.fillText(bottomText, canvas.width / 2, y);
+    }
+}
+
+// Предпросмотр (просто перерисовка)
 btnPreview.addEventListener('click', () => {
-    console.log('Кнопка "Предросмотр" нажата');
     if (!currentImage) {
-        alert('Загрузите изображение или выберите шаблон!');
+        alert('Сначала загрузите изображение.');
         return;
     }
     render();
 });
 
-// === Кнопка "Сгенерировать" (работает!) ===
+// «Сгенерировать» — просто разблокируем скачивание
 btnGenerateGen.addEventListener('click', () => {
-    console.log('Кнопка "Сгенерировать" нажата');
     if (!currentImage) {
-        alert('Загрузите изображение!');
+        alert('Сначала загрузите изображение.');
         return;
     }
     btnDownload.disabled = false;
-    alert('Мем сгенерирован! Теперь можно скачать.');
+    alert('Мем готов. Теперь можно скачать.');
 });
 
-// === Кнопка "Скачать" (работает!) ===
+// КНОПКА СКАЧИВАНИЯ
+btnDownload.addEventListener('click', () => {
+    if (!currentImage) {
+        alert('Сначала загрузите изображение.');
+        return;
+    }
 
-function get_file_url(url) {
-	
-	var link_url = document.createElement("a");
-	
-	link_url.download = url.substring((url.lastIndexOf("/") + 1), url.length);
-	link_url.href = url;
-	document.body.appendChild(link_url);
-	link_url.click();
-	document.body.removeChild(link_url);
-	delete link_url;
+    try {
+        const dataURL = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.href = dataURL;
+        link.download = 'meme.png';
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+    } catch (e) {
+        alert('Ошибка при скачивании: ' + e.message);
+    }
+});
 
-}
-
+// Перерисовка при изменении параметров
 topTextInput.addEventListener('input', render);
 bottomTextInput.addEventListener('input', render);
+fontSizeInput.addEventListener('input', render);
 textColorSelect.addEventListener('change', render);
 customColorInput.addEventListener('input', render);
 
