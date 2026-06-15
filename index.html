@@ -80,58 +80,6 @@
             <div id="meme-gallery"></div>
         </section>
     </main>
-    <div class="player">
-  <button class="sound-btn" onclick="toggleSound()" aria-label="Включить или выключить звук">
-    🔊
-  </button>
-
-  <div class="controls">
-    <button type="button" onclick="prevSong()">⏮</button>
-    <button type="button" onclick="nextSong()">⏭</button>
-  </div>
-
-  <audio id="audio" src="9lives — fairy (www.lightaudio.ru).mp3"></audio>
-</div>
-
-<script>
-  const playlist = [
-    "9lives — fairy (www.lightaudio.ru).mp3",
-    "Yung Gravy — Betty (www.lightaudio.ru).mp3",
-    "Milky — Just The Way You Are (2002) (www.lightaudio.ru).mp3",
-  ];
-
-  let currentSong = 0;
-  const audio = document.getElementById("audio");
-  const soundBtn = document.querySelector(".sound-btn");
-
-  function playCurrentSong() {
-    audio.src = playlist[currentSong];
-    audio.play();
-    soundBtn.textContent = "🔊";
-  }
-
-  function toggleSound() {
-    if (audio.paused) {
-      audio.play();
-      soundBtn.textContent = "🔊";
-    } else {
-      audio.pause();
-      soundBtn.textContent = "🔇";
-    }
-  }
-
-  function nextSong() {
-    currentSong = (currentSong + 1) % playlist.length;
-    playCurrentSong();
-  }
-
-  function prevSong() {
-    currentSong = (currentSong - 1 + playlist.length) % playlist.length;
-    playCurrentSong();
-  }
-
-  audio.addEventListener("ended", nextSong);
-</script>
     <script src="app.js"></script>
 </body>
 </html>
